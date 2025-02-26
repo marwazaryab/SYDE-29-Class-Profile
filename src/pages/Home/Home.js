@@ -1,14 +1,11 @@
 import React from "react";
 import "./Home.css";
+import Star from "../../components/Stars";
 
 const Home = () => {
   return (
     <div className="home-container">
-      <div className="background">
-        <div className="glow-green"></div>
-        <div className="glow-pink"></div>
-        <div className="glow-blue"></div>
-      </div>
+      <Star />
       
       <div className="content">
         <h2 className="top-left">A LOOK</h2>
