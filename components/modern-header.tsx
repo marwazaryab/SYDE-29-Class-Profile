@@ -1,11 +1,29 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export function ModernHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [menuPanelVisible, setMenuPanelVisible] = useState(false)
+  const [hasOpenedOnce, setHasOpenedOnce] = useState(false)
+
+  // Handle mounting/unmounting for animation
+  useEffect(() => {
+    if (isMenuOpen) {
+      setMenuPanelVisible(true)
+      setTimeout(() => setHasOpenedOnce(true), 10) // allow for initial mount
+    } else if (menuPanelVisible) {
+      // Wait for animation to finish before unmounting
+      const timeout = setTimeout(() => {
+        setMenuPanelVisible(false)
+        setHasOpenedOnce(false)
+      }, 300)
+      return () => clearTimeout(timeout)
+    }
+  }, [isMenuOpen])
 
   const menuItems = [
     { name: "About", number: "1." },
@@ -22,12 +40,12 @@ export function ModernHeader() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 p-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer transition-transform duration-200 hover:scale-110">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
               {/* Removed the SYDE text from inside the circle */}
             </div>
             <span className="text-white font-medium">SYDE 2029</span>
-          </div>
+          </Link>
 
           <Button
             variant="ghost"
@@ -41,21 +59,31 @@ export function ModernHeader() {
       </header>
 
       {/* Menu Overlay */}
-      {isMenuOpen && (
+      {menuPanelVisible && (
         <>
-          {/* Backdrop */}
-          <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+          {/* Backdrop with fade in/out */}
+          <div
+            className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+            onClick={() => setIsMenuOpen(false)}
+          />
 
-          {/* Menu Panel */}
-          <div className="fixed top-0 right-0 z-50 h-full w-1/4 min-w-[280px] bg-gradient-to-br from-pink-500 via-purple-600 to-blue-600 shadow-2xl transform transition-transform duration-300 ease-in-out">
+          {/* Menu Panel with slide in/out */}
+          <div
+            className={`fixed top-0 right-0 z-50 h-full w-1/4 min-w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out overflow-hidden
+              ${hasOpenedOnce && isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          >
+            {/* Colored blur spots */}
+            <div className="absolute top-24 left-16 w-32 h-32 bg-green-200 opacity-40 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute bottom-24 right-10 w-32 h-32 bg-blue-200 opacity-40 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute bottom-10 left-10 w-32 h-32 bg-pink-200 opacity-30 rounded-full blur-2xl pointer-events-none"></div>
             <div className="relative h-full flex flex-col">
-              <div className="flex items-center justify-between p-4 border-b border-white/20">
-                <h2 className="text-white text-xl font-bold">Sections</h2>
+              <div className="flex items-center justify-between p-4 border-b border-black/10">
+                <h2 className="text-black text-2xl font-extrabold">Sections</h2>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-white hover:bg-white/10"
+                  className="text-black hover:bg-black/5"
                 >
                   <X className="h-5 w-5" />
                 </Button>
@@ -66,11 +94,11 @@ export function ModernHeader() {
                   {menuItems.map((item, index) => (
                     <button
                       key={index}
-                      className="w-full text-left p-3 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
+                      className="w-full text-left p-4 rounded-lg bg-white/80 hover:bg-black/5 transition-colors border border-black/5 shadow-sm"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      <span className="text-white/70 text-xs">{item.number}</span>
-                      <div className="text-white text-sm font-medium">{item.name}</div>
+                      <span className="text-black text-lg font-bold mr-2 align-top">{item.number}</span>
+                      <span className="text-black text-lg font-extrabold">{item.name}</span>
                     </button>
                   ))}
                 </div>
