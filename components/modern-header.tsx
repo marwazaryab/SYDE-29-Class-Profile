@@ -40,7 +40,7 @@ export function ModernHeader() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 p-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 cursor-pointer">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer transition-transform duration-200 hover:scale-110">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
               {/* Removed the SYDE text from inside the circle */}
             </div>
