@@ -1,5 +1,6 @@
 import { ModernHeader } from "@/components/modern-header"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Home() {
   return (
@@ -14,12 +15,14 @@ export default function Home() {
               <h1 className="text-8xl md:text-[12rem] font-extrabold text-white mb-6 ml-8 w-max">SYDE</h1>
             </div>
             <p className="text-3xl md:text-4xl text-white/90 mt-8 ml-[64%] w-max font-bold">CLASS OF '29!</p>
-            <Button
-              size="lg"
-              className="mt-10 bg-gradient-to-r from-orange-400 to-green-300 ml-[70%] hover:from-orange-500 hover:to-green-400 text-black font-extrabold px-10 py-4 rounded-full text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
-            >
-              LET'S GO!
-            </Button>
+            <Link href="/about">
+              <Button
+                size="lg"
+                className="mt-10 bg-gradient-to-r from-orange-400 to-green-300 ml-[70%] hover:from-orange-500 hover:to-green-400 text-black font-extrabold px-10 py-4 rounded-full text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
+              >
+                LET'S GO!
+              </Button>
+            </Link>
           </div>
         </section>
       </main>
