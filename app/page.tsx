@@ -16,7 +16,7 @@ export default function Home() {
             <p className="text-3xl md:text-4xl text-white/90 mt-8 ml-[64%] w-max font-bold">CLASS OF '29!</p>
             <Button
               size="lg"
-              className="mt-10 bg-gradient-to-r from-orange-400 via-pink-500 ml-[70%] to-green-300 hover:from-orange-500 hover:to-green-400 text-white font-bold px-10 py-4 rounded-full text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
+              className="mt-10 bg-gradient-to-r from-orange-400 to-green-300 ml-[70%] hover:from-orange-500 hover:to-green-400 text-black font-extrabold px-10 py-4 rounded-full text-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-110"
             >
               LET'S GO!
             </Button>
