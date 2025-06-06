@@ -1,11 +1,28 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export function ModernHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [menuPanelVisible, setMenuPanelVisible] = useState(false)
+  const [hasOpenedOnce, setHasOpenedOnce] = useState(false)
+
+  // Handle mounting/unmounting for animation
+  useEffect(() => {
+    if (isMenuOpen) {
+      setMenuPanelVisible(true)
+      setTimeout(() => setHasOpenedOnce(true), 10) // allow for initial mount
+    } else if (menuPanelVisible) {
+      // Wait for animation to finish before unmounting
+      const timeout = setTimeout(() => {
+        setMenuPanelVisible(false)
+        setHasOpenedOnce(false)
+      }, 300)
+      return () => clearTimeout(timeout)
+    }
+  }, [isMenuOpen])
 
   const menuItems = [
     { name: "About", number: "1." },
@@ -41,13 +58,19 @@ export function ModernHeader() {
       </header>
 
       {/* Menu Overlay */}
-      {isMenuOpen && (
+      {menuPanelVisible && (
         <>
-          {/* Backdrop */}
-          <div className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" onClick={() => setIsMenuOpen(false)} />
+          {/* Backdrop with fade in/out */}
+          <div
+            className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0'}`}
+            onClick={() => setIsMenuOpen(false)}
+          />
 
-          {/* Menu Panel */}
-          <div className="fixed top-0 right-0 z-50 h-full w-1/4 min-w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out overflow-hidden">
+          {/* Menu Panel with slide in/out */}
+          <div
+            className={`fixed top-0 right-0 z-50 h-full w-1/4 min-w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out overflow-hidden
+              ${hasOpenedOnce && isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+          >
             {/* Colored blur spots */}
             <div className="absolute top-24 left-16 w-32 h-32 bg-green-200 opacity-40 rounded-full blur-2xl pointer-events-none"></div>
             <div className="absolute bottom-24 right-10 w-32 h-32 bg-blue-200 opacity-40 rounded-full blur-2xl pointer-events-none"></div>
