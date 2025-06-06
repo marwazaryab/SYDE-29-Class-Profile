@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export function ModernHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -39,12 +40,12 @@ export function ModernHeader() {
     <>
       <header className="fixed top-0 left-0 right-0 z-50 p-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2 cursor-pointer">
             <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
               {/* Removed the SYDE text from inside the circle */}
             </div>
             <span className="text-white font-medium">SYDE 2029</span>
-          </div>
+          </Link>
 
           <Button
             variant="ghost"
